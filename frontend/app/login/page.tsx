@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { Input } from '../components/Input';
+import { Button } from '../components/Button';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -25,32 +27,32 @@ export default function Login() {
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google`; // Redirect to backend Google auth
   };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md w-96">
-        <h1 className="text-2xl font-bold mb-6">Login</h1>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        <form onSubmit={handleLogin}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 mb-4 border rounded"
-            required
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 mb-4 border rounded"
-            required
-          />
-          <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">Login</button>
-        </form>
-        <button onClick={handleGoogleLogin} className="w-full bg-red-500 text-white p-2 rounded mt-4">Sign in with Google</button>
-      </div>
+return (
+  <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="bg-white p-8 rounded shadow-md w-96">
+      <h1 className="text-2xl font-bold mb-6">Login</h1>
+      {error && <p className="text-red-500 mb-4">{error}</p>}
+      <form onSubmit={handleLogin}>
+        <Input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className="w-full mb-4"
+        />
+        <Input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className="w-full mb-4"
+        />
+        <Button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">Login</Button>
+      </form>
+      <Button onClick={handleGoogleLogin} className="w-full bg-red-500 text-white p-2 rounded mt-4">Sign in with Google</Button>
     </div>
-  );
+  </div>
+);
 }
