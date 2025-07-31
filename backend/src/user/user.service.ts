@@ -53,4 +53,9 @@ export class UserService {
     if (!user) throw new NotFoundException('User not found');
     return this.prisma.user.delete({ where: { id } });
   }
+  async getUserByEmail(email: string) {
+  return this.prisma.user.findUnique({
+    where: { email },
+  });
+}
 }
