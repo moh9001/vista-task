@@ -3,14 +3,19 @@ import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { Role } from '@prisma/client';
+import { BadRequestException } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
   constructor(private userService: UserService, private jwtService: JwtService) {}
 
-  async signup(data: { name: string; email: string; password: string; role?: Role }) {
-    return this.userService.createUser(data);
+ async signup(data: { name: string; email: string; password: string; role?: Role }) {
+  const existingUser = await this.userService.getUserByEmail(data.email);
+  if (existingUser) {
+    throw new BadRequestException('Email already in use');
   }
+  return this.userService.createUser(data);
+}
 
   async validateUser(email: string, pass: string): Promise<any> {
     const user = await this.userService.getUserByEmail(email); // We'll add this method in a later step if not present
